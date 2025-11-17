@@ -1,0 +1,16 @@
+{
+  "Plugin-Class": "me.koteyka32k.rhplugins.startupsound.StartupSoundPlugin",
+  "Name": "${project.plugin_name}",
+  "Version": "${project.plugin_version}",
+  "Description": "A RusherHack plugin that plays a sound of your choice after startup.",
+  "URL": "https://github.com/Koteyka32k/rh-startupsound",
+  "Authors": [
+    "Koteyka32k"
+  ],
+  "Minecraft-Versions": [
+    "${project.minecraft_version}"
+  ],
+  "Mixin-Configs": [
+    "mixins.startupsound.json"
+  ]
+}
