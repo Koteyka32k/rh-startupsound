@@ -2,14 +2,13 @@ package me.koteyka32k.rhplugins.startupsound;
 
 import me.koteyka32k.rhplugins.startupsound.module.StartupSoundModule;
 import me.koteyka32k.rhplugins.startupsound.sound.Sound;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import org.rusherhack.core.setting.BooleanSetting;
 import org.rusherhack.core.setting.StringSetting;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +22,11 @@ import java.util.Objects;
  * @since 1.0
  */
  public final class StartupSoundManager {
+    /**
+     * The directory consisting of startup sounds.
+     */
+    private static final File startupSoundsDir = new File(Minecraft.getInstance().gameDirectory.getAbsolutePath() + "/rusherhack/startupsounds/");
+
     /**
      * State of the sound manager.
      */
@@ -56,7 +60,6 @@ import java.util.Objects;
      */
     public static void init() {
         // check if dir exists
-        final File startupSoundsDir = new File(Minecraft.getInstance().gameDirectory.getAbsolutePath() + "/rusherhack/startupsounds/");
         if (!startupSoundsDir.exists()) {
             if (!startupSoundsDir.mkdir()) {
                 throw new RuntimeException("Failed to create \"rusherhack/startupsounds/\" folder!");
@@ -82,7 +85,7 @@ import java.util.Objects;
 
         if (sounds.isEmpty()) {
             JOptionPane.showMessageDialog(null, "There are no startup sounds! " +
-                            "Please put startup sound files (*.ogg) into the opened directory (it will appear after clicking OK). Then, please restart the game.");
+                    "Please put startup sound files (*.ogg) into the opened directory (it will appear after clicking OK). Then, please restart the game.");
             openFolder();
         }
 
@@ -91,7 +94,7 @@ import java.util.Objects;
         // it if we don't have songs
 
         StartupSoundModule.getInstance().registerSettings(openFolder);
-        if (!sounds.isEmpty())  StartupSoundModule.getInstance().registerSettings(startupSound);
+        if (!sounds.isEmpty()) StartupSoundModule.getInstance().registerSettings(startupSound);
         StartupSoundModule.getInstance().registerSettings(useRandom);
 
         initialized = true;
@@ -135,10 +138,6 @@ import java.util.Objects;
     }
 
     private static void openFolder() {
-        try {
-            Desktop.getDesktop().open(new File(Minecraft.getInstance().gameDirectory.getAbsolutePath() + "/rusherhack/startupsounds/"));
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to open folder!");
-        }
+        Util.getPlatform().openUri(startupSoundsDir.toURI());
     }
 }
